@@ -23,18 +23,11 @@ const characters = [
   
   function MyApp() {
     return (
-      <div className="container">
-        <Table />
-      </div>
-    );
+        <div className="container">
+          <Table characterData={characters} />
+        </div>
+      );
   }
   
-function MyApp() {
-  return (
-    <div className="container">
-      <Table />
-    </div>
-  );
-}
 
 export default MyApp;
