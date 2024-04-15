@@ -63,3 +63,16 @@ const users = {
       res.send(users);
     }
   });
+
+  const findUserById = (id) =>
+  users["users_list"].find((user) => user["id"] === id);
+
+app.get("/users/:id", (req, res) => {
+  const id = req.params["id"]; //or req.params.id
+  let result = findUserById(id);
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.send(result);
+  }
+});
