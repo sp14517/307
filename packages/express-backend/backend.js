@@ -76,3 +76,29 @@ app.get("/users/:id", (req, res) => {
     res.send(result);
   }
 });
+
+
+
+const addUser = (user) => {
+    users["users_list"].push(user);
+    return user;
+  };
+
+const RemoveUser = (id) => {
+    var index = users["users_list"].findIndex(
+    (user) => user["id"] === id
+  );
+  users["users_list"].splice(index,1);
+};
+  
+  app.post("/users", (req, res) => {
+    const userToAdd = req.body;
+    addUser(userToAdd);
+    res.send();
+  });
+
+  app.delete("/users/:id", (req, res) => {
+    const iDToDelete = req.params.id;
+    RemoveUser(iDToDelete);
+    res.send();
+  });
