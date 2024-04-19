@@ -99,8 +99,8 @@ const RemoveUser = (id) => {
   
   app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);
-    res.status(201).send(); //added 201 here
+    var user = addUser(userToAdd);
+    res.status(201).send(user); //added 201 here
     
   });
 
