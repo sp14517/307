@@ -23,16 +23,22 @@ import Form from "./Form";
     
         return promise;
       }
-      
+
       function updateList(person) { 
         postUser(person)
-          .then((res) => { 
-            if (res.status == 201)setCharacters([...characters, person]);
-        })
-          .catch((error) => {
-            console.log(error);
-          })
+            .then(res => {
+                if (res.status === 201) {
+                    return res.json();
+                }
+            })
+            .then(newperson => { 
+                setCharacters([...characters, newperson]);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
+    
       function fetchUsers() {
         const promise = fetch("http://localhost:8000/users");
         return promise;
