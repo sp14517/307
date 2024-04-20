@@ -5,7 +5,18 @@ import cors from "cors";
 const app = express();
 const port = 8000;
 app.use(cors());
-app.use(express.json());
+
+//app.use(express.json());
+
+
+
+app.use((req, res, next) => {
+    if (req.method !== "DELETE") {
+      express.json()(req, res, next);
+    } else {
+      next();
+    }
+  });
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -48,7 +59,8 @@ const users = {
   };
 
   function generateID(){
-    var id = Math.random();
+    var num = Math.random();
+    var id = num.toString();
     return (id);
 }
   const findUserByName = (name) => {
@@ -94,7 +106,13 @@ const RemoveUser = (id) => {
     var index = users["users_list"].findIndex(
     (user) => user["id"] === id
   );
-  users["users_list"].splice(index,1);
+  if (index !== -1) {
+    users["users_list"].splice(index,1);
+    return true;
+  }
+  else {
+    return false
+  }
 };
   
   app.post("/users", (req, res) => {
@@ -106,6 +124,13 @@ const RemoveUser = (id) => {
 
   app.delete("/users/:id", (req, res) => {
     const iDToDelete = req.params.id;
-    RemoveUser(iDToDelete);
-    res.send();
-  });
+    const result = RemoveUser(iDToDelete);
+    //res.send();
+   //added 201 here
+   if (result) {
+        res.status(204).send(); // No content, successful deletion
+    } else {
+        res.status(404).send("Resource not found."); // User not found
+    }
+  }
+  );
