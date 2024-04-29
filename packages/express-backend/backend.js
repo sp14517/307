@@ -1,3 +1,4 @@
+
 // backend.js
 import express from "express";
 import cors from "cors";
@@ -21,6 +22,32 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+app.get("/users", (req, res) => {
+  const name = req.query.name;
+  const job = req.query.job;
+
+  let result;
+
+  if (name !== undefined) {
+    if (job === undefined) {
+      userService.findUserByName(name).then(result => res.send({ users_list: result }));
+    } else {
+      userService.findUserbyJbandID(name,job).then(result => res.send({ users_list: result }));
+    }
+  } else {
+    
+    userService.getUsers().then(result => res.send({ users_list: result }));
+  }
+  
+});
+
+
+const findUserByName = (name) => {
+  return users["users_list"].filter(
+    (user) => user["name"] === name
+  );
+};
 
 app.listen(port, () => {
   console.log(
@@ -63,32 +90,9 @@ const users = {
     var id = num.toString();
     return (id);
 }
-  const findUserByName = (name) => {
-    return users["users_list"].filter(
-      (user) => user["name"] === name
-    );
-  };
+  
 
-  app.get("/users", (req, res) => {
-    const name = req.query.name;
-    const job = req.query.job;
-
-    if ((name != undefined) && (job == undefined)){
-        let result = userService.findUserByName(name);
-        result = { users_list: result };
-        res.send(result);
-      } else {
-        res.send(users);
-      }
-
-    if ((name != undefined) && (job != undefined)) {
-      let result = userService.findUserbyJbandID(name, job);
-      result = { users_list: result };
-      res.send(result);
-    } else {
-      res.send(users);
-    }
-  });
+ 
   
   //app.get("/users", (req, res) => {
     //const name = req.query.name;
