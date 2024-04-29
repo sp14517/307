@@ -26,6 +26,10 @@ function findUserById(id) {
   return userModel.findById(id);
 }
 
+function findUserByIdandDelete(id) {
+  return userModel.findOneAndDelete(id);
+}
+
 function addUser(user) {
   const userToAdd = new userModel(user);
   const promise = userToAdd.save();
@@ -51,4 +55,5 @@ export default {
   findUserByName,
   findUserByJob,
   findUserbyJbandID,
+  findUserByIdandDelete,
 };

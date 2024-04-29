@@ -142,22 +142,30 @@ const RemoveUser = (id) => {
   
   app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    var user = addUser(userToAdd);
-    res.status(201).send(user); //added 201 here
+    var user = userService.addUser(userToAdd).then( user => res.status(201).send(user))
+    //added 201 here
     
   });
 
   app.delete("/users/:id", (req, res) => {
     const iDToDelete = req.params.id;
-    const result = RemoveUser(iDToDelete);
-    //res.send();
-   //added 201 here
-   if (result) {
-        res.status(204).send(); // No content, successful deletion
-    } else {
-        res.status(404).send("Resource not found."); // User not found
-    }
+   if ((iDToDelete) != undefined) {
+      userService.findUserByIdandDelete(iDToDelete).then(result => res.send());
+  }
+  else 
+  {
+    userService.getUsers().then(result => res.send({ users_list: result }));
   }
 
-  
+}
   );
+
+  // const result = RemoveUser(iDToDelete);
+    //res.send();
+   //added 201 here
+   //if (result) {
+       // res.status(204).send(); // No content, successful deletion
+ //   } else {
+     //  res.status(404).send("Resource not found."); // User not found
+   // }
+
