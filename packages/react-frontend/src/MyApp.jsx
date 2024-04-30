@@ -63,7 +63,7 @@ import Form from "./Form";
         const person = characters[index]
         
       
-        deleteUser(person.id).then((res) => {  
+        deleteUser(person._id).then((res) => {  
             if (res.status == 204)
             {const updated = characters.filter((_, i) => {
                 return i !== index;
