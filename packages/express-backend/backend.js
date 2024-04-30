@@ -150,7 +150,16 @@ const RemoveUser = (id) => {
   app.delete("/users/:id", (req, res) => {
     const iDToDelete = req.params.id;
    if ((iDToDelete) != undefined) {
-      userService.findUserByIdandDelete(iDToDelete).then(result => res.send());
+      userService.findUserByIdandDelete(iDToDelete).then(
+        result => {
+          if (result) 
+          {res.status(204).send()}
+          else
+          {
+            res.status(404).send()
+          }
+        }
+        );
   }
   else 
   {
